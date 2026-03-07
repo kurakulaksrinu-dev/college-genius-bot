@@ -14,7 +14,120 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      campus_blocks: {
+        Row: {
+          block_name: string
+          created_at: string
+          departments: string[] | null
+          description: string | null
+          floor_count: number | null
+          id: string
+        }
+        Insert: {
+          block_name: string
+          created_at?: string
+          departments?: string[] | null
+          description?: string | null
+          floor_count?: number | null
+          id?: string
+        }
+        Update: {
+          block_name?: string
+          created_at?: string
+          departments?: string[] | null
+          description?: string | null
+          floor_count?: number | null
+          id?: string
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          created_at: string
+          department: string | null
+          description: string | null
+          duration: string | null
+          id: string
+          level: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          department?: string | null
+          description?: string | null
+          duration?: string | null
+          id?: string
+          level: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          department?: string | null
+          description?: string | null
+          duration?: string | null
+          id?: string
+          level?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      facilities: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      semester_subjects: {
+        Row: {
+          created_at: string
+          credits: number | null
+          department: string
+          id: string
+          level: string
+          semester: number
+          subject_code: string | null
+          subject_name: string
+        }
+        Insert: {
+          created_at?: string
+          credits?: number | null
+          department: string
+          id?: string
+          level?: string
+          semester: number
+          subject_code?: string | null
+          subject_name: string
+        }
+        Update: {
+          created_at?: string
+          credits?: number | null
+          department?: string
+          id?: string
+          level?: string
+          semester?: number
+          subject_code?: string | null
+          subject_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
