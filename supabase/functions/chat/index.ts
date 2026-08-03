@@ -93,7 +93,77 @@ const COLLEGE_CONTEXT = `You are the official AI Assistant of VSM College of Eng
 - M.Tech: GATE/PGECET counseling
 - MBA: ICET counseling
 
+**III YEAR CLASS TIMETABLES (Current Academic Year)**
+Period timings (same for all classes): P1 9:30-10:30 AM, P2 10:30-11:30 AM, P3 11:30 AM-12:30 PM, Lunch 12:30-1:30 PM, P4 1:30-2:30 PM, P5 2:30-3:30 PM, P6 3:30-4:30 PM.
+When a student asks about their timetable, ask for their class if not given, and present the day-wise schedule clearly with timings.
+
+--- III CSE (DS) | Room 112 | Class Teacher: Ms. G. Ramya ---
+Mon: SE, ML, CN, EDVC, SEMINAR, NPTEL
+Tue: FSD-1 LAB, FSD-1 LAB, SE, CN, EDVC, INSTACK
+Wed: CN, NPTEL, ML LAB, ML LAB, NPTEL, SPORTS
+Thu: ML, SE, FLUTTER LAB, FLUTTER LAB, CN, ML
+Fri: INSTACK, EDVC, CN LAB, CN LAB, ML, SE
+Sat: EDVC, CN, INSTACK, SE, ML, LIBRARY
+Faculty: Machine Learning – Mr. Krishna Kumar; Computer Networks – Ms. G. Ramya; Software Engineering – Mrs. T. Sravanthi; NPTEL – Unassigned; EDVC – Ms. S. Gayatri; ML Lab – Mr. Krishna Kumar; CN Lab – Ms. G. Ramya; Full Stack Development-1 – K. Nirmala; Tinkering Lab (UI Design using Flutter) – Mr. Appaji; Instack – Unassigned; Library – Ms. G. Ramya; Seminar – Unassigned
+
+--- III IT | Room 212 | Class Teacher: Mrs. Ch. Anuradha ---
+Mon: EDVC, ADJAVA, INSTACK, LIBRARY, CN, NPTEL
+Tue: CN, NPTEL, EDVC, CN, ADJAVA, INSTACK
+Wed: CN LAB, CN LAB, EDVC, ADJAVA, ATCD, SPORTS
+Thu: ATCD, SEMINAR, CN, EDVC, ATCD, ADJAVA
+Fri: ADJAVA, CN, FSD-1 LAB, FSD-1 LAB, NPTEL, ATCD
+Sat: ADV JAVA LAB, ADV JAVA LAB, FLUTTER LAB, FLUTTER LAB, INSTACK, ATCD
+Faculty: Advanced Java – Mr. G. Kiran Kumar; Computer Networks – Mrs. Ch. Anuradha; Automata Theory & Compiler Design (ATCD) – Ms. Sravani; NPTEL – Unassigned; EDVC – Mrs. K. Srivalli; Advanced Java Lab – Mr. G. Kiran Kumar; CN Lab – Mrs. Ch. Anuradha; Full Stack Development-1 – K. Nirmala; UI Design using Flutter – Ms. K. Mehgana; Instack – Unassigned; Library – Mrs. Ch. Anuradha; Seminar – Unassigned
+
+--- III CSE (AI & ML) | Room 225 | Class Teacher: Mrs. T. Sravanthi ---
+Mon: IRS LAB, IRS LAB, FLUTTER LAB, FLUTTER LAB, CN, IRS
+Tue: SE, OS, EDVC, IRS, SE, CN
+Wed: CN, SE, FSD-2 LAB, FSD-2 LAB, OS, SPORTS
+Thu: OS, EDVC, INSTACK, SE, IRS, LIBRARY
+Fri: CN, OS, IRS, EDVC, SE, INSTACK
+Sat: OS, EDVC, CN, IRS, CN LAB, CN LAB
+Faculty: Information Retrieval Systems – Mr. Pothula Nani Babu; Computer Networks – Ms. D. Naga Jyothi; Operating Systems – Mrs. V. Divya; Software Engineering – Mrs. T. Sravanthi; EDVC – Ms. S. Gayatri; IRS Lab – Mr. Pothula Nani Babu; CN Lab – Ms. D. Naga Jyothi; Full Stack Development-2 – Mr. Pothula Nani Babu; UI Design using Flutter – Mr. Appaji; Instack – Unassigned; Library – Mrs. T. Sravanthi; Seminar – Unassigned
+
+--- III CSE - A | Room 301 | Class Teacher: Ms. D. Naga Jyothi ---
+Mon: DWDM, CN, DWDM LAB, DWDM LAB, EDVC, INSTACK
+Tue: EDVC, INSTACK, FLAT, CN, NPTEL, DWDM
+Wed: FSD-2 LAB, FSD-2 LAB, CN, FLAT, DWDM, SPORTS
+Thu: DWDM, FLAT, CN, LIBRARY, NPTEL, EDVC
+Fri: FLUTTER LAB, FLUTTER LAB, FLAT, DWDM, CN, SEMINAR
+Sat: CN LAB, CN LAB, INSTACK, NPTEL, FLAT, EDVC
+Faculty: Data Warehousing and Data Mining – Mrs. N. Jyothsna; Computer Networks – Ms. D. Naga Jyothi; Formal Languages and Automata Theory (FLAT) – Ms. Sravani; NPTEL – Unassigned; EDVC – Mr. K. Rajeev; Data Mining Lab – Mrs. N. Jyothsna; CN Lab – Ms. D. Naga Jyothi; Full Stack Development-2 – Ms. Sowmya; UI Design using Flutter – Mr. K Sateesh Kumar; Instack – Unassigned; Library – Ms. D. Naga Jyothi; Seminar – Unassigned
+
+--- III CSE - B | Room 302 | Class Teacher: Ms. A. Sravani ---
+Mon: CN, EDVC, DWDM, FLAT, FSD-2 LAB, FSD-2 LAB
+Tue: DWDM, NPTEL, CN, EDVC, FLAT, INSTACK
+Wed: DWDM, EDVC, FLAT, CN, NPTEL, SPORTS
+Thu: CN, NPTEL, DWDM, INSTACK, CN LAB, CN LAB
+Fri: DWDM LAB, DWDM LAB, CN, FLAT, LIBRARY, EDVC
+Sat: FLAT, DWDM, (Free), SEMINAR, FLUTTER LAB, FLUTTER LAB
+Faculty: DWDM – Ms. N. Lalitha; Computer Networks – Ms. D. Naga Jyothi; FLAT – Ms. A. Sravani; NPTEL – Unassigned; EDVC – Mr. K. Rajeev; Data Mining Lab – Ms. N. Lalitha; CN Lab – Ms. D. Naga Jyothi; Full Stack Development-2 – Ms. Sowmya; UI Design using Flutter – Mr. K Sateesh Kumar; Instack – Unassigned; Library – Ms. A. Sravani; Seminar – Unassigned
+
+--- III CSE - C | Room 303 | Class Teacher: Mr. S. Siva Krishna ---
+Mon: FLAT, EDVC, NPTEL, CN, DWDM LAB, DWDM LAB
+Tue: DWDM, CN, FLAT, NPTEL, CN LAB, CN LAB
+Wed: EDVC, DWDM, CN, INSTACK, FSD-2 LAB, FSD-2 LAB
+Thu: FLAT, CN, EDVC, NPTEL, DWDM, INSTACK
+Fri: FLAT, DWDM, (Free), LIBRARY, FLUTTER LAB, FLUTTER LAB
+Sat: INSTACK, FLAT, DWDM, EDVC, CN, SPORTS
+Faculty: DWDM – Mrs. N. Jyothsna; Computer Networks – Mr. Siva Krishna; FLAT – Mrs. Prasanna Rani; NPTEL – Unassigned; EDVC – Ms. N. Gowthami; Data Mining Lab – Mrs. N. Jyothsna; CN Lab – Mr. Siva Krishna; Full Stack Development-2 – Ms. Sowmya; UI Design using Flutter – Mr. K Sateesh Kumar; Instack – Unassigned; Library – Mr. S. Siva Krishna; Seminar – Unassigned
+
+--- III CSE - D | Room 309 | Class Teacher: Mrs. N. Jyothsna ---
+Mon: CN LAB, CN LAB, FLAT, EDVC, NPTEL, CN
+Tue: FLAT, INSTACK, DWDM LAB, DWDM LAB, FLUTTER LAB, FLUTTER LAB
+Wed: CN, FLAT, NPTEL, CN, EDVC, DWDM
+Thu: FSD-2 LAB, FSD-2 LAB, DWDM, EDVC, CN, NPTEL
+Fri: INSTACK, FLAT, CN, DWDM, SEMINAR, EDVC
+Sat: DWDM, INSTACK, FLAT, DWDM, LIBRARY, SPORTS
+Faculty: DWDM – Mrs. N. Jyothsna; Computer Networks – Mr. Siva Krishna; FLAT – Mrs. Prasanna Rani; NPTEL – Unassigned; EDVC – Ms. N. Gowthami; Data Mining Lab – Mrs. N. Jyothsna; CN Lab – Mr. Siva Krishna; Full Stack Development-2 – Ms. N. Lalitha; UI Design using Flutter – Mr. Appaji; Instack – Unassigned; Library – Mrs. N. Jyothsna; Seminar – Unassigned
+
+Abbreviations: CN = Computer Networks, SE = Software Engineering, ML = Machine Learning, OS = Operating Systems, DWDM = Data Warehousing & Data Mining, FLAT = Formal Languages & Automata Theory, ATCD = Automata Theory & Compiler Design, IRS = Information Retrieval Systems, ADJAVA = Advanced Java, FSD = Full Stack Development, EDVC = Entrepreneurship Development & Venture Creation, NPTEL = online course hour, INSTACK = skill/technology stack hour.
+
 For more details, visit the official website: https://www.vsm.edu.in/Sites/vsmeng/`;
+
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
