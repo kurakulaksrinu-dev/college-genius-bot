@@ -9,6 +9,7 @@ import Facilities from "./pages/Facilities";
 import Admissions from "./pages/Admissions";
 import Placements from "./pages/Placements";
 import Chat from "./pages/Chat";
+import Practice from "./pages/Practice";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/admissions" element={<Admissions />} />
           <Route path="/placements" element={<Placements />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/practice" element={<Practice />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
