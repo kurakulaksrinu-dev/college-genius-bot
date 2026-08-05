@@ -43,6 +43,7 @@ const Practice = () => {
   const [typingStart, setTypingStart] = useState<number | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [hideIntro, setHideIntro] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
