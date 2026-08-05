@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Loader2, Keyboard, RotateCcw, Copy, Check, Sparkle } from "lucide-react";
+import { Send, Loader2, Keyboard, RotateCcw, Copy, Check, Sparkle, Eye, EyeOff } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
 
