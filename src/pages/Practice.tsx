@@ -252,33 +252,47 @@ const Practice = () => {
                 <Sparkle className="w-4 h-4 text-primary" />
                 <h2 className="text-sm font-semibold text-foreground">Your self-introduction</h2>
                 <button
-                  onClick={copyIntro}
+                  onClick={() => setHideIntro((h) => !h)}
                   className="ml-auto text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                  aria-label={hideIntro ? "Show introduction" : "Hide introduction"}
+                >
+                  {hideIntro ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                  {hideIntro ? "Show" : "Hide"}
+                </button>
+                <button
+                  onClick={copyIntro}
+                  className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
                 >
                   {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   Copy
                 </button>
               </div>
-              <p className="text-sm leading-relaxed font-mono">
-                {intro.split("").map((ch, i) => {
-                  const state =
-                    i >= typed.length ? "pending" : typed[i] === ch ? "correct" : "wrong";
-                  return (
-                    <span
-                      key={i}
-                      className={
-                        state === "correct"
-                          ? "text-foreground"
-                          : state === "wrong"
-                            ? "bg-destructive/20 text-destructive"
-                            : "text-muted-foreground"
-                      }
-                    >
-                      {ch}
-                    </span>
-                  );
-                })}
-              </p>
+              {hideIntro ? (
+                <p className="text-sm text-muted-foreground italic">
+                  Introduction hidden — type it from memory.
+                </p>
+              ) : (
+                <p className="text-sm leading-relaxed font-mono">
+                  {intro.split("").map((ch, i) => {
+                    const state =
+                      i >= typed.length ? "pending" : typed[i] === ch ? "correct" : "wrong";
+                    return (
+                      <span
+                        key={i}
+                        className={
+                          state === "correct"
+                            ? "text-foreground"
+                            : state === "wrong"
+                              ? "bg-destructive/20 text-destructive"
+                              : "text-muted-foreground"
+                        }
+                      >
+                        {ch}
+                      </span>
+                    );
+                  })}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-3 gap-3">
