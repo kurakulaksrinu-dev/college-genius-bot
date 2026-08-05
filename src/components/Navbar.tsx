@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { GraduationCap, Menu, X, MessageCircle } from "lucide-react";
+import { GraduationCap, Menu, X, MessageCircle, Keyboard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { to: "/facilities", label: "Facilities" },
   { to: "/admissions", label: "Admissions" },
   { to: "/placements", label: "Placements" },
+  { to: "/practice", label: "Practice", icon: Keyboard },
   { to: "/chat", label: "Chat", icon: MessageCircle },
 ];
 
