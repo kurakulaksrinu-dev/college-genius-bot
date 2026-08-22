@@ -78,25 +78,27 @@ const ChatInterface = () => {
             break;
           }
 
+          let parsed: any;
           try {
-            const parsed = JSON.parse(jsonStr);
-            if (parsed.error) throw new Error(parsed.error);
-            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-            if (content) {
-              assistantSoFar += content;
-              setMessages((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.role === "assistant") {
-                  return prev.map((m, i) =>
-                    i === prev.length - 1 ? { ...m, content: assistantSoFar } : m
-                  );
-                }
-                return [...prev, { role: "assistant", content: assistantSoFar }];
-              });
-            }
+            parsed = JSON.parse(jsonStr);
           } catch {
             textBuffer = line + "\n" + textBuffer;
             break;
+          }
+
+          if (parsed.error) throw new Error(parsed.error);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) {
+            assistantSoFar += content;
+            setMessages((prev) => {
+              const last = prev[prev.length - 1];
+              if (last?.role === "assistant") {
+                return prev.map((m, i) =>
+                  i === prev.length - 1 ? { ...m, content: assistantSoFar } : m
+                );
+              }
+              return [...prev, { role: "assistant", content: assistantSoFar }];
+            });
           }
         }
       }
