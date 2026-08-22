@@ -2,10 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ChatMessage from "./ChatMessage";
+import { apiUrl } from "@/lib/api";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+const CHAT_URL = apiUrl("/api/chat");
+
 
 const SUGGESTIONS = [
   "What courses are offered?",
@@ -42,9 +44,8 @@ const ChatInterface = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: allMessages }),
+        body: JSON.stringify({ messages: allMessages, stream: true }),
       });
 
       if (!resp.ok || !resp.body) {
@@ -77,24 +78,27 @@ const ChatInterface = () => {
             break;
           }
 
+          let parsed: any;
           try {
-            const parsed = JSON.parse(jsonStr);
-            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-            if (content) {
-              assistantSoFar += content;
-              setMessages((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.role === "assistant") {
-                  return prev.map((m, i) =>
-                    i === prev.length - 1 ? { ...m, content: assistantSoFar } : m
-                  );
-                }
-                return [...prev, { role: "assistant", content: assistantSoFar }];
-              });
-            }
+            parsed = JSON.parse(jsonStr);
           } catch {
             textBuffer = line + "\n" + textBuffer;
             break;
+          }
+
+          if (parsed.error) throw new Error(parsed.error);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) {
+            assistantSoFar += content;
+            setMessages((prev) => {
+              const last = prev[prev.length - 1];
+              if (last?.role === "assistant") {
+                return prev.map((m, i) =>
+                  i === prev.length - 1 ? { ...m, content: assistantSoFar } : m
+                );
+              }
+              return [...prev, { role: "assistant", content: assistantSoFar }];
+            });
           }
         }
       }

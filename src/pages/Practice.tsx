@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, Loader2, Keyboard, RotateCcw, Copy, Check, Sparkle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
+import { apiUrl } from "@/lib/api";
 
 type Step = {
   key: string;
@@ -24,7 +25,7 @@ const STEPS: Step[] = [
   { key: "Family", question: "Finally, tell me a little about your family.", placeholder: "My family consists of ..." },
 ];
 
-const INTRO_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/self-intro`;
+const INTRO_URL = apiUrl("/api/self-intro");
 
 type Bubble = { role: "ai" | "student"; text: string };
 
@@ -110,10 +111,7 @@ const Practice = () => {
     try {
       const resp = await fetch(INTRO_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers: nextAnswers }),
       });
       const data = await resp.json();
