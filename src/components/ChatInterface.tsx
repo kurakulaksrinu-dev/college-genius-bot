@@ -80,6 +80,7 @@ const ChatInterface = () => {
 
           try {
             const parsed = JSON.parse(jsonStr);
+            if (parsed.error) throw new Error(parsed.error);
             const content = parsed.choices?.[0]?.delta?.content as string | undefined;
             if (content) {
               assistantSoFar += content;
