@@ -1,13 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ChatMessage from "./ChatMessage";
-import { apiUrl } from "@/lib/api";
-
-type Msg = { role: "user" | "assistant"; content: string };
-
-const CHAT_URL = apiUrl("/api/chat");
-
+import { streamChat, type Msg } from "@/services/chatService";
 
 const SUGGESTIONS = [
   "What courses are offered?",
@@ -32,81 +27,32 @@ const ChatInterface = () => {
     if (!trimmed || isLoading) return;
 
     const userMsg: Msg = { role: "user", content: trimmed };
-    setMessages((prev) => [...prev, userMsg]);
+    const allMessages = [...messages, userMsg];
+    setMessages(allMessages);
     setInput("");
     setIsLoading(true);
 
-    let assistantSoFar = "";
-    const allMessages = [...messages, userMsg];
-
     try {
-      const resp = await fetch(CHAT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ messages: allMessages, stream: true }),
+      await streamChat(allMessages, (full) => {
+        setMessages((prev) => {
+          const last = prev[prev.length - 1];
+          if (last?.role === "assistant") {
+            return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: full } : m));
+          }
+          return [...prev, { role: "assistant", content: full }];
+        });
       });
-
-      if (!resp.ok || !resp.body) {
-        const errorData = await resp.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to get response");
-      }
-
-      const reader = resp.body.getReader();
-      const decoder = new TextDecoder();
-      let textBuffer = "";
-      let streamDone = false;
-
-      while (!streamDone) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        textBuffer += decoder.decode(value, { stream: true });
-
-        let newlineIndex: number;
-        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
-          let line = textBuffer.slice(0, newlineIndex);
-          textBuffer = textBuffer.slice(newlineIndex + 1);
-
-          if (line.endsWith("\r")) line = line.slice(0, -1);
-          if (line.startsWith(":") || line.trim() === "") continue;
-          if (!line.startsWith("data: ")) continue;
-
-          const jsonStr = line.slice(6).trim();
-          if (jsonStr === "[DONE]") {
-            streamDone = true;
-            break;
-          }
-
-          let parsed: any;
-          try {
-            parsed = JSON.parse(jsonStr);
-          } catch {
-            textBuffer = line + "\n" + textBuffer;
-            break;
-          }
-
-          if (parsed.error) throw new Error(parsed.error);
-          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-          if (content) {
-            assistantSoFar += content;
-            setMessages((prev) => {
-              const last = prev[prev.length - 1];
-              if (last?.role === "assistant") {
-                return prev.map((m, i) =>
-                  i === prev.length - 1 ? { ...m, content: assistantSoFar } : m
-                );
-              }
-              return [...prev, { role: "assistant", content: assistantSoFar }];
-            });
-          }
-        }
-      }
     } catch (e) {
       console.error(e);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Sorry, I encountered an error. Please try again." },
+        {
+          role: "assistant",
+          content:
+            e instanceof Error
+              ? `Sorry — ${e.message}`
+              : "Sorry, I encountered an error. Please try again.",
+        },
       ]);
     } finally {
       setIsLoading(false);
@@ -124,6 +70,18 @@ const ChatInterface = () => {
 
   return (
     <div className="flex flex-col h-full">
+      {!isEmpty && (
+        <div className="flex justify-end px-4 pt-3">
+          <button
+            onClick={() => setMessages([])}
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors rounded-lg px-2.5 py-1.5 hover:bg-muted"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            Clear chat
+          </button>
+        </div>
+      )}
+
       {/* Messages area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6">
         {isEmpty ? (
@@ -134,14 +92,15 @@ const ChatInterface = () => {
               transition={{ duration: 0.5 }}
               className="text-center"
             >
-              <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-4 shadow-glow">
                 <span className="text-2xl font-bold text-primary-foreground">V</span>
               </div>
               <h2 className="text-2xl font-bold text-foreground mb-2">
                 How can I help you today?
               </h2>
               <p className="text-muted-foreground max-w-md">
-                Ask me anything about VSM College of Engineering — courses, admissions, facilities, placements, and more.
+                Ask me anything about VSM College of Engineering — courses, admissions,
+                facilities, placements, timetables and more.
               </p>
             </motion.div>
 
@@ -155,7 +114,7 @@ const ChatInterface = () => {
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="text-left p-3 rounded-xl border border-border bg-card hover:bg-muted transition-colors text-sm text-foreground"
+                  className="text-left p-3 rounded-xl border border-border bg-card hover:bg-muted hover:-translate-y-0.5 transition-all text-sm text-foreground"
                 >
                   {s}
                 </button>
@@ -175,8 +134,17 @@ const ChatInterface = () => {
                 animate={{ opacity: 1 }}
                 className="flex items-center gap-2 px-4 py-3 text-muted-foreground"
               >
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span className="text-sm">Thinking...</span>
+                <span className="flex gap-1">
+                  {[0, 1, 2].map((d) => (
+                    <motion.span
+                      key={d}
+                      className="w-1.5 h-1.5 rounded-full bg-muted-foreground"
+                      animate={{ opacity: [0.3, 1, 0.3] }}
+                      transition={{ duration: 1.2, repeat: Infinity, delay: d * 0.2 }}
+                    />
+                  ))}
+                </span>
+                <span className="text-sm">Assistant is typing...</span>
               </motion.div>
             )}
           </div>
@@ -209,8 +177,8 @@ const ChatInterface = () => {
               )}
             </button>
           </div>
-          <p className="text-xs text-muted-foreground text-center mt-2">
-            VSM College Assistant may produce inaccurate information. Verify important details with the college administration.
+          <p className="text-[11px] text-muted-foreground text-center mt-2">
+            VSM Assistant can make mistakes. Verify important details with the college office.
           </p>
         </div>
       </div>
