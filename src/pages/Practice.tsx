@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, Loader2, Keyboard, RotateCcw, Copy, Check, Sparkle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
-import { apiUrl } from "@/lib/api";
+import { generateSelfIntro } from "@/services/chatService";
 
 type Step = {
   key: string;
@@ -24,8 +24,6 @@ const STEPS: Step[] = [
   { key: "Strengths", question: "What are your key strengths?", placeholder: "Quick learner, disciplined ..." },
   { key: "Family", question: "Finally, tell me a little about your family.", placeholder: "My family consists of ..." },
 ];
-
-const INTRO_URL = apiUrl("/api/self-intro");
 
 type Bubble = { role: "ai" | "student"; text: string };
 
@@ -109,14 +107,8 @@ const Practice = () => {
     setStage("loading");
 
     try {
-      const resp = await fetch(INTRO_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers: nextAnswers }),
-      });
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data.error || "Failed to generate");
-      setIntro((data.intro as string).trim());
+      const generated = await generateSelfIntro(nextAnswers);
+      setIntro(generated);
       setStage("typing");
     } catch (e) {
       console.error(e);
